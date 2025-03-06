@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Capture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        video, canvas {
+            border: 2px solid black;
+            margin: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Camera Capture App</h1>
+    <video id="video" width="320" height="240" autoplay></video>
+    <br>
+    <button onclick="capture()">Take Photo</button>
+    <br>
+    <canvas id="canvas" width="320" height="240"></canvas>
+    
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // Access the camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error("Camera access denied:", error);
+            });
+
+        // Capture the image
+        function capture() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        }
+    </script>
+</body>
+</html>
